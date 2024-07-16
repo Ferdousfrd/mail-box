@@ -35,16 +35,41 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+
+  // get the emails for to display in this mailbox
+  fetch(`/emails/${mailbox}`)
+  .then(response => response.json())
+  .then(emails => {
+    console.log(emails)
+  })
+
+
 }
 
 //creating send_email function
 function send_email(event){
   event.preventDefault()
 
-    // getting the compose values and storing em
-    const recipients = document.querySelector('#compose-recipients').value 
-    const subject = document.querySelector('#compose-subject').value 
-    const body = document.querySelector('#compose-body').value 
+  // getting the compose values and storing em
+  const recipients = document.querySelector('#compose-recipients').value 
+  const subject = document.querySelector('#compose-subject').value 
+  const body = document.querySelector('#compose-body').value 
 
+  // send data to backend
+
+  fetch('/emails', {
+    method: "POST",
+    body: JSON.stringify({
+      recipients: recipients,
+      subject: subject,
+      body: body
+    })
+  })
+  .then(response => response.json())
+  .then(result => {
+    console.log(result)
+    load_mailbox("sent")
+  })
+  
 
 }
