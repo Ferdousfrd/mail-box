@@ -40,7 +40,21 @@ function load_mailbox(mailbox) {
   fetch(`/emails/${mailbox}`)
   .then(response => response.json())
   .then(emails => {
-    console.log(emails)
+
+    console.log('Hello')
+
+    //loop through emails for each email
+    emails.forEach(singleEmail => {
+
+
+      //creaye div for each email
+      const newEmail = document.createElement('div')
+      newEmail.innerHTML = "This is working"
+      newEmail.addEventListener('click', function(){
+        console.log('This mewEmail has been clicked')
+      })
+      document.querySelector('#emails-view').append(newEmail)
+    })
   })
 
 
@@ -67,7 +81,7 @@ function send_email(event){
   })
   .then(response => response.json())
   .then(result => {
-    console.log(result)
+    console.log('result')
     load_mailbox("sent")
   })
   
